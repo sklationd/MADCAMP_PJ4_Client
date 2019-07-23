@@ -107,7 +107,7 @@ class StudentNoticeState extends State<StudentNotice> {
       appBar: new AppBar(
         title: new Text("학생 공지사항"),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
+          IconButton(icon: Icon(Icons.bookmark_border), onPressed: _pushSaved),
         ],
       ),
       body: futureBuilderData,

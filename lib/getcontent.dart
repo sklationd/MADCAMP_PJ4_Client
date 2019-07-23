@@ -68,7 +68,7 @@ class GetContent {
     String username = prefs.getString("username");
     int ntt_no = post.getNttno();
     http.delete(
-      Uri.encodeFull('http://52.78.7.28:8080/users/$username/$ntt_no'), //TODO: add url + username + ntt_no
+      Uri.encodeFull('http://52.78.7.28:8080/users/$username/$ntt_no'),
       headers: {"token": token},
     );
   }
