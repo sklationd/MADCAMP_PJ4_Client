@@ -38,7 +38,7 @@ class StudentNoticeState extends State<StudentNotice> {
         });
     });
     _futureData = gc.getData();
-    //_futureBookmark = gc.getBookmark();
+//    _futureBookmark = gc.getBookmark();
   }
 
   @override

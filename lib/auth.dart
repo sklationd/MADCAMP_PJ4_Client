@@ -26,11 +26,19 @@ class Login {
 
 class Register {
   String username;
+  String firstname;
+  String lastname;
+  String phone;
+  String email;
   String password;
   String passwordConfirmation;
 
-  Register(String _username, String _password, String _passwordConfirmation) {
+  Register(String _username, String _firstname, String _lastname, String _phone, String _email, String _password, String _passwordConfirmation) {
     username = _username;
+    firstname = _firstname;
+    lastname = _lastname;
+    phone = _phone;
+    email = _email;
     password = _password;
     passwordConfirmation = _passwordConfirmation;
   }
@@ -39,7 +47,16 @@ class Register {
     http.Response response = await http.post(
       Uri.encodeFull('http://52.78.7.28:8080/users/'),
       headers: {"Accept": "application/json"},
-      body: {'username': username, 'password': password, 'confirmPassword': passwordConfirmation},
+      body:
+      {
+        'username': username,
+        'firstname': firstname,
+        'lastname': lastname,
+        'phonenumber': phone,
+        'email': email,
+        'password': password,
+        'confirmPassword': passwordConfirmation
+      },
     );
     String body = response.body;
     print(body);

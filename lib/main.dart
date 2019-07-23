@@ -47,6 +47,27 @@ class MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    String _name = "";
+    String _email = "";
+    String _phone = "";
+
+    Future<SharedPreferences> sf = SharedPreferences.getInstance();
+    sf.then((sf) {
+      setState(() {
+        _name = sf.getString("name");
+      });
+    });
+    sf.then((sf) {
+      setState(() {
+        _email = sf.getString("email");
+      });
+    });
+    sf.then((sf) {
+      setState(() {
+        _name = sf.getString("phone");
+      });
+    });
+
     return MaterialApp(
       theme: ThemeData(
           primarySwatch: Colors.grey,
@@ -61,8 +82,8 @@ class MainState extends State<Main> {
             child: ListView(
               children: <Widget>[
                 new UserAccountsDrawerHeader(
-                  accountName: Text("testusername"),
-                  accountEmail: Text("test@test.com"),
+                  accountName: Text(_name),
+                  accountEmail: Text(_email),
                   currentAccountPicture: new CircleAvatar(
                     backgroundImage:
                         new NetworkImage('http://i.pravatar.cc/300'),
