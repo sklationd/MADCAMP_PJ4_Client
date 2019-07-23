@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login {
   String username;
@@ -19,6 +20,16 @@ class Login {
     );
     print(response.body);
     var data = json.decode(response.body);
+
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    assert(data['user'].length == 1);
+    print(data['user'][0]['firstname']+' '+data['user'][0]['lastname']);
+    print(data['user'][0]['phone']);
+    print(data['user'][0]['email']);
+    sf.setString("name", data['user'][0]['firstname']+' '+data['user'][0]['lastname']);
+    sf.setString("phone",data['user'][0]['phone']);
+    sf.setString("email",data['user'][0]['email']);
+
     return data['token'];
     ///만약 성공하면 TOKEN 돌려주고, 실패하면 실패 메시지 출력하고 null 리턴
   }
@@ -58,9 +69,8 @@ class Register {
         'confirmPassword': passwordConfirmation
       },
     );
-    String body = response.body;
-    print(body);
     var data = json.decode(response.body);
+    String body = response.body;
     return data['id'] != null;
     ///만약 성공하면 true 돌려주고, 실패하면 실패 메시지 출력하고 false 리턴
   }

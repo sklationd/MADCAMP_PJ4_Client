@@ -55,17 +55,17 @@ class MainState extends State<Main> {
     Future<SharedPreferences> sf = SharedPreferences.getInstance();
     sf.then((sf) {
       setState(() {
-        _name = sf.getString("name");
+        this._name = sf.getString("name");
       });
     });
     sf.then((sf) {
       setState(() {
-        _email = sf.getString("email");
+        this._email = sf.getString("email");
       });
     });
     sf.then((sf) {
       setState(() {
-        _phone = sf.getString("phone");
+        this._phone = sf.getString("phone");
       });
     });
   }
@@ -73,7 +73,6 @@ class MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       theme: ThemeData(
           primarySwatch: Colors.grey,
@@ -88,8 +87,8 @@ class MainState extends State<Main> {
             child: ListView(
               children: <Widget>[
                 new UserAccountsDrawerHeader(
-                  accountName: Text(_name),
-                  accountEmail: Text(_email),
+                  accountName: Text(this._name),
+                  accountEmail: Text(this._email),
                   currentAccountPicture: new CircleAvatar(
                     backgroundImage:
                         new NetworkImage('http://i.pravatar.cc/300'),
