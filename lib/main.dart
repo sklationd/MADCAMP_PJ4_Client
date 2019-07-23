@@ -17,8 +17,8 @@ class MainState extends State<Main> {
   List<String> quicklink = [
     "https://portal.kaist.ac.kr",
     "https://ara.kaist.ac.kr",
-    "https://ko-kr.facebook.com/KaDaejeon/"
-        "https://mail.kaist.ac.kr",
+    "https://ko-kr.facebook.com/KaDaejeon/",
+    "https://mail.kaist.ac.kr",
     "https://otl.kaist.ac.kr",
     "https://scspace.kaist.ac.kr",
     "https://urs.kaist.ac.kr",
