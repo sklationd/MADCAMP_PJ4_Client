@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:html/dom.dart' as dom;
 import 'package:flutter_html/flutter_html.dart';
 import 'package:kaistal/getcontent.dart';
 import 'package:url_launcher/url_launcher.dart';

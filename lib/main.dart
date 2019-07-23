@@ -50,21 +50,13 @@ class MainState extends State<Main> {
   String _phone = "";
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     Future<SharedPreferences> sf = SharedPreferences.getInstance();
     sf.then((sf) {
       setState(() {
         this._name = sf.getString("name");
-      });
-    });
-    sf.then((sf) {
-      setState(() {
         this._email = sf.getString("email");
-      });
-    });
-    sf.then((sf) {
-      setState(() {
         this._phone = sf.getString("phone");
       });
     });
