@@ -208,9 +208,15 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   ///RESTful API 이용해서 가입하고 성공하면 로그인 후 저장
-  Future<bool> _register(BuildContext context, String firstname, String lastname, String phone, String email, String username, String password,
+  Future<bool> _register(BuildContext context, String username, String firstname, String lastname, String phone, String email,  String password,
       String passwordConfirmation) async {
-    Register registerSession =
+    print(username);
+    print(firstname);
+    print(lastname);
+    print(phone);
+    print(email);
+    print(password);
+    print(passwordConfirmation);    Register registerSession =
         new Register(username, firstname, lastname, phone, email, password, passwordConfirmation);
     bool result = await registerSession.getData();
     if (result) {

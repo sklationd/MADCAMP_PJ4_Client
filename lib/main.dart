@@ -45,12 +45,13 @@ class MainState extends State<Main> {
     Friends(),
   ];
 
-  @override
-  Widget build(BuildContext context) {
-    String _name = "";
-    String _email = "";
-    String _phone = "";
+  String _name = "";
+  String _email = "";
+  String _phone = "";
 
+  @override
+  void initState(){
+    super.initState();
     Future<SharedPreferences> sf = SharedPreferences.getInstance();
     sf.then((sf) {
       setState(() {
@@ -64,9 +65,14 @@ class MainState extends State<Main> {
     });
     sf.then((sf) {
       setState(() {
-        _name = sf.getString("phone");
+        _phone = sf.getString("phone");
       });
     });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
 
     return MaterialApp(
       theme: ThemeData(

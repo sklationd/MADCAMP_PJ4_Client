@@ -26,8 +26,19 @@ class StudentNoticeState extends State<StudentNotice> {
   ScrollController _controller =
       ScrollController(initialScrollOffset: 0.0, keepScrollOffset: true);
   Future<List<Post>> _futureData;
-  Future<Set<Post>> _futureBookmark;
-  final Set<Post> _saved = Set<Post>();
+  Set<Post> _saved = Set<Post>();
+
+  @override
+  void initState() {
+    super.initState();
+    gc.getBookmark().then((set) {
+      setState(() {
+        _saved = set;
+      });
+    });
+    _futureData = gc.getData();
+  }
+
   StudentNoticeState() {
     _controller.addListener(() {
       print(_controller.offset);
@@ -37,8 +48,6 @@ class StudentNoticeState extends State<StudentNotice> {
           _futureData = gc.getData();
         });
     });
-    _futureData = gc.getData();
-//    _futureBookmark = gc.getBookmark();
   }
 
   @override
@@ -54,23 +63,29 @@ class StudentNoticeState extends State<StudentNotice> {
             controller: _controller,
             itemBuilder: (BuildContext context, int index) {
               Post post = loaded[index];
-              final bool alreadySaved = _saved.contains(post);
+              final bool alreadySaved = _findPost(post);
               return new Column(children: <Widget>[
                 ListTile(
                   title: Text(loaded[index].getSubject()),
                   trailing: IconButton(
-                      icon: Icon(_saved.contains(post)
+                      icon: Icon(alreadySaved
                           ? Icons.bookmark
                           : Icons.bookmark_border),
                       color: alreadySaved ? Colors.orangeAccent : null,
                       onPressed: () {
                         setState(() {
                           if (alreadySaved) {
-                            _saved.remove(post);
-//                            gc.deleteBookmark(post);
+//                            _saved.remove(post);
+                            setState(() {
+                              gc.deleteBookmark(post);
+                              _saved.remove(post);
+                            });
                           } else {
-                            _saved.add(post);
-//                            gc.postBookmark(post);
+//                            _saved.add(post);
+                            setState(() {
+                              gc.postBookmark(post);
+                              _saved.add(post);
+                            });
                           }
                         });
                       }),
@@ -115,72 +130,71 @@ class StudentNoticeState extends State<StudentNotice> {
   }
 
   void _pushSaved() {
-    var futureBuilderBookmark = FutureBuilder(
-      future: _futureBookmark,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          // Load Done
-          Set<Post> loaded = snapshot.data;
-          return ListView.builder(
-            itemCount: loaded.length,
-            controller: _controller,
-            itemBuilder: (BuildContext context, int index) {
-              final bool alreadySaved = true;
-
-              final Iterable<ListTile> tiles = loaded.map(
-                (Post post) {
-                  return ListTile(
-                    title: Text(
-                      post.getSubject(),
-                    ),
-                    trailing: Icon(
-                      loaded.contains(post)
-                          ? Icons.bookmark
-                          : Icons.bookmark_border,
-                      color: alreadySaved ? Colors.orangeAccent : null,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        if (alreadySaved) {
-                          //loaded.remove(post);
-                          gc.deleteBookmark(post);
-                        }
-                      });
-                    },
-                  );
-                },
-              );
-
-              final List<Widget> divided = ListTile.divideTiles(
-                context: context,
-                tiles: tiles,
-              ).toList();
-
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text('즐겨찾는 공지사항'),
-                ),
-                body: ListView(children: divided),
-              );
-            },
-          );
-        } else if (snapshot.hasError) {
-          // Error
-          return new Text("${snapshot.error}");
-        }
-        return Center(
-          // Loading in Progress
-          child: new Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              new CircularProgressIndicator(),
-              new Text("Loading"),
-            ],
-          ),
-        );
-      },
-    );
-
+//    var futureBuilderBookmark = FutureBuilder(
+//      future: _futureBookmark,
+//      builder: (BuildContext context, AsyncSnapshot snapshot) {
+//        if (snapshot.hasData) {
+//          // Load Done
+//          Set<Post> loaded = snapshot.data;
+//          return ListView.builder(
+//            itemCount: loaded.length,
+//            controller: _controller,
+//            itemBuilder: (BuildContext context, int index) {
+//              final bool alreadySaved = true;
+//
+//              final Iterable<ListTile> tiles = loaded.map(
+//                (Post post) {
+//                  return ListTile(
+//                    title: Text(
+//                      post.getSubject(),
+//                    ),
+//                    trailing: Icon(
+//                      loaded.contains(post)
+//                          ? Icons.bookmark
+//                          : Icons.bookmark_border,
+//                      color: alreadySaved ? Colors.orangeAccent : null,
+//                    ),
+//                    onTap: () {
+//                      setState(() {
+//                        if (alreadySaved) {
+//                          //loaded.remove(post);
+//                          gc.deleteBookmark(post);
+//                        }
+//                      });
+//                    },
+//                  );
+//                },
+//              );
+//
+//              final List<Widget> divided = ListTile.divideTiles(
+//                context: context,
+//                tiles: tiles,
+//              ).toList();
+//
+//              return Scaffold(
+//                appBar: AppBar(
+//                  title: Text('즐겨찾는 공지사항'),
+//                ),
+//                body: ListView(children: divided),
+//              );
+//            },
+//          );
+//        } else if (snapshot.hasError) {
+//          // Error
+//          return new Text("${snapshot.error}");
+//        }
+//        return Center(
+//          // Loading in Progress
+//          child: new Row(
+//            mainAxisSize: MainAxisSize.min,
+//            children: [
+//              new CircularProgressIndicator(),
+//              new Text("Loading"),
+//            ],
+//          ),
+//        );
+//      },
+//    );
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) {
@@ -218,5 +232,13 @@ class StudentNoticeState extends State<StudentNotice> {
         },
       ),
     );
+  }
+
+  bool _findPost(Post post) {
+    var it = _saved.iterator;
+    while (it.moveNext()) {
+      if (it.current.getNttno() == post.getNttno()) return true;
+    }
+    return false;
   }
 }

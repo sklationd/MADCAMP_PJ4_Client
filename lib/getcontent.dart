@@ -51,7 +51,7 @@ class GetContent {
     List data = jsonDecode(body);
     for (var json in data) {
       Post post = new Post();
-      int ntt_no = int.parse(json['ntt_no']);
+      int ntt_no = json['ntt_no'];
       post.setNttno(ntt_no);
       String subject =json['subject'];
       post.setSubject(subject);
@@ -67,6 +67,7 @@ class GetContent {
     String token = prefs.getString("token");
     String username = prefs.getString("username");
     int ntt_no = post.getNttno();
+
     http.delete(
       Uri.encodeFull('http://52.78.7.28:8080/users/$username/$ntt_no'),
       headers: {"token": token},
@@ -79,12 +80,10 @@ class GetContent {
     String username = prefs.getString("username");
     int ntt_no = post.getNttno();
 
-    var postBody = jsonEncode({'ntt_no': ntt_no, 'subject': post.getSubject(), 'contents':post.getContents()});
-
     http.post(
       Uri.encodeFull('http://52.78.7.28:8080/users/$username/bmrked_posts'),
       headers: {"token": token},
-      body : postBody,
+      body : {'ntt_no':  ntt_no.toString(), 'subject': post.getSubject(), 'contents':post.getContents()},
     );
   }
 }
