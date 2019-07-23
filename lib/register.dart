@@ -3,7 +3,7 @@ import 'package:kaistal/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
-import 'package:kaistal/contentsview.dart';
+import 'package:kaistal/main.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -83,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     Navigator.pop(context);
                     Navigator.pushReplacement(context,
                       MaterialPageRoute(
-                        builder: (context) => ContentsView(),
+                        builder: (context) => Main(),
                       ),
                     );
                   } else {
@@ -114,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Navigator.pop(context);
                         Navigator.pushReplacement(context,
                           MaterialPageRoute(
-                            builder: (context) => ContentsView(),
+                            builder: (context) => Main(),
                           ),
                         );
                       } else {
