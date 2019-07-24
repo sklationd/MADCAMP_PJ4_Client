@@ -14,7 +14,7 @@ class Main extends StatefulWidget {
   }
 }
 
-class MainState extends State<Main> {
+class MainState extends State<Main>{
   int _selectedTab = 0;
   List<String> quicklink = [
     "https://portal.kaist.ac.kr",
@@ -62,7 +62,6 @@ class MainState extends State<Main> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -76,87 +75,87 @@ class MainState extends State<Main> {
         body: buildPageView(),
         drawer: new Drawer(
             child: Column(children: <Widget>[
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    new UserAccountsDrawerHeader(
-                      accountName: Text(this._name),
-                      accountEmail: Text(this._email),
-                      currentAccountPicture: new CircleAvatar(
-                        backgroundImage:
+          Expanded(
+            child: ListView(
+              children: <Widget>[
+                new UserAccountsDrawerHeader(
+                  accountName: Text(this._name),
+                  accountEmail: Text(this._email),
+                  currentAccountPicture: new CircleAvatar(
+                    backgroundImage:
                         new NetworkImage('http://i.pravatar.cc/300'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 300.0,
-                      child: GridView.count(
-                        crossAxisCount: 3,
-                        children: List.generate(
-                          9,
-                              (index) {
-                            return Center(
-                              child: GestureDetector(
-                                child: new Container(
-                                  height: 80,
-                                  width: 80,
-                                  decoration: new BoxDecoration(
-                                    border: new Border.all(
-                                      color: Colors.grey,
-                                      width: 3,
-                                    ),
-                                    borderRadius: new BorderRadius.only(
-                                      topLeft: const Radius.circular(5.0),
-                                      topRight: const Radius.circular(5.0),
-                                      bottomLeft: const Radius.circular(5.0),
-                                      bottomRight: const Radius.circular(5.0),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Icon(Icons.link),
-                                      Text(linkname[index])
-                                    ],
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                  ),
+                  ),
+                ),
+                SizedBox(
+                  height: 300.0,
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    children: List.generate(
+                      9,
+                      (index) {
+                        return Center(
+                          child: GestureDetector(
+                            child: new Container(
+                              height: 80,
+                              width: 80,
+                              decoration: new BoxDecoration(
+                                border: new Border.all(
+                                  color: Colors.grey,
+                                  width: 3,
                                 ),
-                                onTap: () {
-                                  _launchURL(quicklink[index]);
-                                },
+                                borderRadius: new BorderRadius.only(
+                                  topLeft: const Radius.circular(5.0),
+                                  topRight: const Radius.circular(5.0),
+                                  bottomLeft: const Radius.circular(5.0),
+                                  bottomRight: const Radius.circular(5.0),
+                                ),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  Icon(Icons.link),
+                                  Text(linkname[index])
+                                ],
+                                mainAxisAlignment: MainAxisAlignment.center,
+                              ),
+                            ),
+                            onTap: () {
+                              _launchURL(quicklink[index]);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+              child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Container(
+                      child: Column(children: <Widget>[
+                    Divider(),
+                    ListTile(
+                        leading: Icon(Icons.exit_to_app),
+                        title: Text('로그아웃'),
+                        onTap: () {
+                          showAlertDialog(context, () {
+                            print("logout cancel");
+                          }, () {
+                            SharedPreferences.getInstance().then((sf) {
+                              sf.clear();
+                            });
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SplashApp(),
                               ),
                             );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                  child: Align(
-                      alignment: FractionalOffset.bottomCenter,
-                      child: Container(
-                          child: Column(children: <Widget>[
-                            Divider(),
-                            ListTile(
-                                leading: Icon(Icons.exit_to_app),
-                                title: Text('로그아웃'),
-                                onTap: () {
-                                  showAlertDialog(context, () {
-                                    print("logout cancel");
-                                  }, () {
-                                    SharedPreferences.getInstance().then((sf) {
-                                      sf.clear();
-                                    });
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SplashApp(),
-                                      ),
-                                    );
-                                  }, "로그아웃", "로그아웃 하시겠습니까?");
-                                })
-                          ])))),
-            ])),
+                          }, "로그아웃", "로그아웃 하시겠습니까?");
+                        })
+                  ])))),
+        ])),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedTab,
           onTap: (int index) {
@@ -213,7 +212,8 @@ class MainState extends State<Main> {
   void bottomTapped(int index) {
     setState(() {
       _selectedTab = index;
-      pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.ease);
+      pageController.animateToPage(index,
+          duration: Duration(milliseconds: 500), curve: Curves.ease);
     });
   }
 }
