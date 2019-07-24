@@ -42,6 +42,7 @@ class User {
   String _lastname;
   String _email;
   String _phonenumber;
+  bool _visible;
 
   void setUsername(String username) {
     _username = username;
