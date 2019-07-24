@@ -72,96 +72,95 @@ class MainState extends State<Main> {
             title: TextStyle(color: Colors.white),
           )),
       home: Scaffold(
-        body: _pageOptions[_selectedTab],
+//        body: _pageOptions[_selectedTab],
+        body: buildPageView(),
         drawer: new Drawer(
             child: Column(children: <Widget>[
-          Expanded(
-            child: ListView(
-              children: <Widget>[
-                new UserAccountsDrawerHeader(
-                  accountName: Text(this._name),
-                  accountEmail: Text(this._email),
-                  currentAccountPicture: new CircleAvatar(
-                    backgroundImage:
+              Expanded(
+                child: ListView(
+                  children: <Widget>[
+                    new UserAccountsDrawerHeader(
+                      accountName: Text(this._name),
+                      accountEmail: Text(this._email),
+                      currentAccountPicture: new CircleAvatar(
+                        backgroundImage:
                         new NetworkImage('http://i.pravatar.cc/300'),
-                  ),
-                ),
-                SizedBox(
-                  height: 300.0,
-                  child: GridView.count(
-                    crossAxisCount: 3,
-                    children: List.generate(
-                      9,
-                      (index) {
-                        return Center(
-                          child: GestureDetector(
-                            child: new Container(
-                              height: 80,
-                              width: 80,
-                              decoration: new BoxDecoration(
-                                border: new Border.all(
-                                  color: Colors.grey,
-                                  width: 3,
-                                ),
-                                borderRadius: new BorderRadius.only(
-                                  topLeft: const Radius.circular(5.0),
-                                  topRight: const Radius.circular(5.0),
-                                  bottomLeft: const Radius.circular(5.0),
-                                  bottomRight: const Radius.circular(5.0),
-                                ),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(Icons.link),
-                                  Text(linkname[index])
-                                ],
-                                mainAxisAlignment: MainAxisAlignment.center,
-                              ),
-                            ),
-                            onTap: () {
-                              _launchURL(quicklink[index]);
-                            },
-                          ),
-                        );
-                      },
+                      ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-              child: Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: Container(
-                      child: Column(children: <Widget>[
-                    Divider(),
-                    ListTile(
-                        leading: Icon(Icons.exit_to_app),
-                        title: Text('로그아웃'),
-                        onTap: () {
-                          showAlertDialog(context, () {
-                            print("logout cancel");
-                          }, () {
-                            SharedPreferences.getInstance().then((sf) {
-                              sf.clear();
-                            });
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SplashApp(),
+                    SizedBox(
+                      height: 300.0,
+                      child: GridView.count(
+                        crossAxisCount: 3,
+                        children: List.generate(
+                          9,
+                              (index) {
+                            return Center(
+                              child: GestureDetector(
+                                child: new Container(
+                                  height: 80,
+                                  width: 80,
+                                  decoration: new BoxDecoration(
+                                    border: new Border.all(
+                                      color: Colors.grey,
+                                      width: 3,
+                                    ),
+                                    borderRadius: new BorderRadius.only(
+                                      topLeft: const Radius.circular(5.0),
+                                      topRight: const Radius.circular(5.0),
+                                      bottomLeft: const Radius.circular(5.0),
+                                      bottomRight: const Radius.circular(5.0),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Icon(Icons.link),
+                                      Text(linkname[index])
+                                    ],
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  ),
+                                ),
+                                onTap: () {
+                                  _launchURL(quicklink[index]);
+                                },
                               ),
                             );
-                          }, "로그아웃", "로그아웃 하시겠습니까?");
-                        })
-                  ])))),
-        ])),
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                  child: Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      child: Container(
+                          child: Column(children: <Widget>[
+                            Divider(),
+                            ListTile(
+                                leading: Icon(Icons.exit_to_app),
+                                title: Text('로그아웃'),
+                                onTap: () {
+                                  showAlertDialog(context, () {
+                                    print("logout cancel");
+                                  }, () {
+                                    SharedPreferences.getInstance().then((sf) {
+                                      sf.clear();
+                                    });
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SplashApp(),
+                                      ),
+                                    );
+                                  }, "로그아웃", "로그아웃 하시겠습니까?");
+                                })
+                          ])))),
+            ])),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedTab,
           onTap: (int index) {
-            setState(() {
-              _selectedTab = index;
-            });
+            bottomTapped(index);
           },
           items: [
             BottomNavigationBarItem(
@@ -185,5 +184,36 @@ class MainState extends State<Main> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  PageController pageController = PageController(
+    initialPage: 0,
+    keepPage: true,
+  );
+
+  void pageChanged(int index) {
+    setState(() {
+      _selectedTab = index;
+    });
+  }
+
+  Widget buildPageView() {
+    return PageView(
+      controller: pageController,
+      onPageChanged: (index) {
+        pageChanged(index);
+      },
+      children: <Widget>[
+        ContentsView(),
+        Friends(),
+      ],
+    );
+  }
+
+  void bottomTapped(int index) {
+    setState(() {
+      _selectedTab = index;
+      pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    });
   }
 }

@@ -108,7 +108,6 @@ class StudentNoticeState extends State<StudentNotice> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 new CircularProgressIndicator(),
-                new Text("Loading"),
               ],
             ),
           );
