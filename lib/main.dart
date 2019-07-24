@@ -73,6 +73,10 @@ class MainState extends State<Main>{
       home: Scaffold(
 //        body: _pageOptions[_selectedTab],
         body: buildPageView(),
+//        IndexedStack(
+//          index: _selectedTab,
+//          children: _pageOptions,
+//        ),
         drawer: new Drawer(
             child: Column(children: <Widget>[
           Expanded(
@@ -160,6 +164,9 @@ class MainState extends State<Main>{
           currentIndex: _selectedTab,
           onTap: (int index) {
             bottomTapped(index);
+//            setState(() {
+//              _selectedTab = index;
+//            });
           },
           items: [
             BottomNavigationBarItem(
