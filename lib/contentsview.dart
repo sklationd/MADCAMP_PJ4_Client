@@ -21,12 +21,15 @@ class StudentNotice extends StatefulWidget {
   StudentNoticeState createState() => new StudentNoticeState();
 }
 
-class StudentNoticeState extends State<StudentNotice> {
+class StudentNoticeState extends State<StudentNotice> with AutomaticKeepAliveClientMixin{
   GetContent gc = new GetContent();
   ScrollController _controller =
       ScrollController(initialScrollOffset: 0.0, keepScrollOffset: true);
   Future<List<Post>> _futureData;
   Set<Post> _saved = Set<Post>();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -52,6 +55,7 @@ class StudentNoticeState extends State<StudentNotice> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var futureBuilderData = FutureBuilder(
       future: _futureData,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -108,7 +112,6 @@ class StudentNoticeState extends State<StudentNotice> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 new CircularProgressIndicator(),
-                new Text("Loading"),
               ],
             ),
           );
@@ -133,6 +136,7 @@ class StudentNoticeState extends State<StudentNotice> {
         builder: (BuildContext context) {
           final Iterable<ListTile> tiles = _saved.map(
             (Post post) {
+              final bool alreadySaved = _findPost(post);
               return ListTile(
                 title: Text(
                   post.getSubject(),

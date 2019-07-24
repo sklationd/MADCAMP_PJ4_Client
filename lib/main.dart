@@ -14,7 +14,7 @@ class Main extends StatefulWidget {
   }
 }
 
-class MainState extends State<Main> {
+class MainState extends State<Main>{
   int _selectedTab = 0;
   List<String> quicklink = [
     "https://portal.kaist.ac.kr",
@@ -62,7 +62,6 @@ class MainState extends State<Main> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -72,7 +71,12 @@ class MainState extends State<Main> {
             title: TextStyle(color: Colors.white),
           )),
       home: Scaffold(
-        body: _pageOptions[_selectedTab],
+//        body: _pageOptions[_selectedTab],
+        body: buildPageView(),
+//        IndexedStack(
+//          index: _selectedTab,
+//          children: _pageOptions,
+//        ),
         drawer: new Drawer(
             child: Column(children: <Widget>[
           Expanded(
@@ -159,9 +163,10 @@ class MainState extends State<Main> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedTab,
           onTap: (int index) {
-            setState(() {
-              _selectedTab = index;
-            });
+            bottomTapped(index);
+//            setState(() {
+//              _selectedTab = index;
+//            });
           },
           items: [
             BottomNavigationBarItem(
@@ -185,5 +190,37 @@ class MainState extends State<Main> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  PageController pageController = PageController(
+    initialPage: 0,
+    keepPage: true,
+  );
+
+  void pageChanged(int index) {
+    setState(() {
+      _selectedTab = index;
+    });
+  }
+
+  Widget buildPageView() {
+    return PageView(
+      controller: pageController,
+      onPageChanged: (index) {
+        pageChanged(index);
+      },
+      children: <Widget>[
+        ContentsView(),
+        Friends(),
+      ],
+    );
+  }
+
+  void bottomTapped(int index) {
+    setState(() {
+      _selectedTab = index;
+      pageController.animateToPage(index,
+          duration: Duration(milliseconds: 500), curve: Curves.ease);
+    });
   }
 }
