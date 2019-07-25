@@ -31,7 +31,6 @@ class StudentNoticeState extends State<StudentNotice> with AutomaticKeepAliveCli
   @override
   bool get wantKeepAlive => true;
 
-
   @override
   void initState() {
     super.initState();
@@ -40,6 +39,7 @@ class StudentNoticeState extends State<StudentNotice> with AutomaticKeepAliveCli
         _saved = set;
       });
     });
+
     gc.getData().then((posts) {
       setState(() {
         _loaded = posts;
