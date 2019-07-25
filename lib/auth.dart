@@ -23,13 +23,13 @@ class Login {
 
     SharedPreferences sf = await SharedPreferences.getInstance();
     assert(data['user'].length == 1);
-    print(data['user'][0]['firstname']+' '+data['user'][0]['lastname']);
-    print(data['user'][0]['phone']);
-    print(data['user'][0]['email']);
     sf.setString("name", data['user'][0]['firstname']+' '+data['user'][0]['lastname']);
     sf.setString("phone",data['user'][0]['phone']);
     sf.setString("email",data['user'][0]['email']);
-
+    if(data['user'][0]['imagepath'] != null) {
+      String url = "http://52.78.7.28:8080/my_uploads/"+data['user'][0]['imagepath'].substring(11);
+      sf.setString("profilePath", url);
+    }
     return data['token'];
     ///만약 성공하면 TOKEN 돌려주고, 실패하면 실패 메시지 출력하고 null 리턴
   }

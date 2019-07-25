@@ -4,6 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 import 'package:kaistal/main.dart';
+import 'package:kaistal/dialog.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:kaistal/profileimageview.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -25,7 +29,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final FocusNode _lastFocus = FocusNode();
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
-
 
   @override
   Widget build(BuildContext context) {
@@ -130,27 +133,22 @@ class _RegisterPageState extends State<RegisterPage> {
               textInputAction: TextInputAction.done,
               onSubmitted: (term) {
                 _pwcfFocus.unfocus();
-                _register(context,
-                    _usernameController.text,
-                    _firstnameController.text,
-                    _lastnameController.text,
-                    _phoneController.text,
-                    _emailController.text,
-                    _passwordController.text,
-                    _passwordConfirmationController.text)
+                _register(
+                        context,
+                        _usernameController.text,
+                        _firstnameController.text,
+                        _lastnameController.text,
+                        _phoneController.text,
+                        _emailController.text,
+                        _passwordController.text,
+                        _passwordConfirmationController.text)
                     .then((result) {
                   if (result) {
-                    Navigator.pop(context);
-                    Navigator.pushReplacement(context,
-                      MaterialPageRoute(
-                        builder: (context) => Main(),
-                      ),
-                    );
+                    _registerSuccess(context);
                   } else {
                     print("Register Failed");
                   }
                 });
-
               },
             ),
             ButtonBar(
@@ -170,22 +168,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 RaisedButton(
                   child: Text('확인'),
                   onPressed: () {
-                    _register(context,
-                        _usernameController.text,
-                        _firstnameController.text,
-                        _lastnameController.text,
-                        _phoneController.text,
-                        _emailController.text,
-                        _passwordController.text,
-                        _passwordConfirmationController.text)
+                    _register(
+                            context,
+                            _usernameController.text,
+                            _firstnameController.text,
+                            _lastnameController.text,
+                            _phoneController.text,
+                            _emailController.text,
+                            _passwordController.text,
+                            _passwordConfirmationController.text)
                         .then((result) {
                       if (result) {
-                        Navigator.pop(context);
-                        Navigator.pushReplacement(context,
-                          MaterialPageRoute(
-                            builder: (context) => Main(),
-                          ),
-                        );
+                        _registerSuccess(context);
                       } else {
                         print("Register Failed");
                       }
@@ -208,16 +202,17 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   ///RESTful API 이용해서 가입하고 성공하면 로그인 후 저장
-  Future<bool> _register(BuildContext context, String username, String firstname, String lastname, String phone, String email,  String password,
+  Future<bool> _register(
+      BuildContext context,
+      String username,
+      String firstname,
+      String lastname,
+      String phone,
+      String email,
+      String password,
       String passwordConfirmation) async {
-    print(username);
-    print(firstname);
-    print(lastname);
-    print(phone);
-    print(email);
-    print(password);
-    print(passwordConfirmation);    Register registerSession =
-        new Register(username, firstname, lastname, phone, email, password, passwordConfirmation);
+    Register registerSession = new Register(username, firstname, lastname,
+        phone, email, password, passwordConfirmation);
     bool result = await registerSession.getData();
     if (result) {
       // Register Success
@@ -234,5 +229,27 @@ class _RegisterPageState extends State<RegisterPage> {
       return true;
     } else
       return false;
+  }
+
+  void _registerSuccess(BuildContext context) {
+    showAlertDialog(context, () {
+      ///set profile image to default
+      Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Main(),
+        ),
+      );
+    }, () {
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProfileImage(),
+        ),
+      );
+    }, "프로필 사진 등록", "프로필 사진을 등록하시겠습니까?");
   }
 }

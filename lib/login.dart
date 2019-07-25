@@ -6,6 +6,7 @@ import 'package:kaistal/auth.dart';
 import 'package:kaistal/register.dart';
 import 'package:kaistal/main.dart';
 
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -103,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                 RaisedButton(
                   child: Text('SIGN UP'),
                   onPressed: () {
-                    Navigator.push(context,
+                    Navigator.pushReplacement(context,
                       MaterialPageRoute(
                         builder: (context) => RegisterPage(),
                       ),
@@ -124,7 +125,6 @@ class _LoginPageState extends State<LoginPage> {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }
-
   ///RESTful API 이용해서 로그인하고 성공하면 TOKEN 저장
   Future<bool> _login(
       BuildContext context, String username, String password) async {
