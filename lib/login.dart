@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:kaistal/auth.dart';
 import 'package:kaistal/register.dart';
-import 'package:kaistal/main.dart';
+import 'package:kaistal/mainview.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Main(),
+                        builder: (context) => MainView(),
                       ),
                     );
                   } else {
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Main(),
+                                  builder: (context) => MainView(),
                                 ),
                               );
                             } else {

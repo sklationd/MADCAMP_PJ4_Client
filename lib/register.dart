@@ -3,7 +3,7 @@ import 'package:kaistal/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
-import 'package:kaistal/main.dart';
+import 'package:kaistal/mainview.dart';
 import 'package:kaistal/dialog.dart';
 import 'package:kaistal/profileimageview.dart';
 
@@ -380,7 +380,7 @@ class _RegisterPageState extends State<RegisterPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Main(),
+          builder: (context) => MainView(),
         ),
       );
     }, () {

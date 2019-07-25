@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:async/async.dart';
 
-import 'package:kaistal/main.dart';
+import 'package:kaistal/mainview.dart';
 
 class ProfileImage extends StatelessWidget {
   @override
@@ -101,7 +101,7 @@ class _ProfileImageView extends State<ProfileImageView> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => Main(),
+        builder: (context) => MainView(),
       ),
     );
   }
