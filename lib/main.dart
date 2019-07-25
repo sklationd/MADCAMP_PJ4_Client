@@ -48,6 +48,7 @@ class MainState extends State<Main>{
   String _name = "";
   String _email = "";
   String _phone = "";
+  String _profilePath = "https://wingsrecoveryohio.org/wp-content/uploads/2013/06/default.png";
 
   @override
   void initState() {
@@ -58,6 +59,7 @@ class MainState extends State<Main>{
         this._name = sf.getString("name");
         this._email = sf.getString("email");
         this._phone = sf.getString("phone");
+        this._profilePath = sf.getString("profilePath") ?? "https://wingsrecoveryohio.org/wp-content/uploads/2013/06/default.png";
       });
     });
   }
@@ -71,12 +73,7 @@ class MainState extends State<Main>{
             title: TextStyle(color: Colors.white),
           )),
       home: Scaffold(
-//        body: _pageOptions[_selectedTab],
         body: buildPageView(),
-//        IndexedStack(
-//          index: _selectedTab,
-//          children: _pageOptions,
-//        ),
         drawer: new Drawer(
             child: Column(children: <Widget>[
           Expanded(
@@ -87,7 +84,7 @@ class MainState extends State<Main>{
                   accountEmail: Text(this._email),
                   currentAccountPicture: new CircleAvatar(
                     backgroundImage:
-                        new NetworkImage('http://i.pravatar.cc/300'),
+                        new NetworkImage(_profilePath), //
                   ),
                 ),
                 SizedBox(
@@ -150,6 +147,7 @@ class MainState extends State<Main>{
                             SharedPreferences.getInstance().then((sf) {
                               sf.clear();
                             });
+                            Navigator.pop(context);
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -164,9 +162,6 @@ class MainState extends State<Main>{
           currentIndex: _selectedTab,
           onTap: (int index) {
             bottomTapped(index);
-//            setState(() {
-//              _selectedTab = index;
-//            });
           },
           items: [
             BottomNavigationBarItem(
