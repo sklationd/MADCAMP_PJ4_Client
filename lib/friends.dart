@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaistal/getusers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Friends extends StatelessWidget {
   @override
@@ -133,6 +134,10 @@ class SearchUsersState extends State<SearchUsers> with AutomaticKeepAliveClientM
   }
 
   void _showUser(context, index) {
+    String prePath = "my_uploads";
+    String postPath = _userListForDisplay[index].getImagePath().substring(11);
+    String path = prePath + "/" + postPath;
+    String phone_number = _userListForDisplay[index].getPhonenumber();
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -176,7 +181,7 @@ class SearchUsersState extends State<SearchUsers> with AutomaticKeepAliveClientM
                             width: 2.0
                           ),
                           image: DecorationImage(
-                            image: NetworkImage('http://i.pravatar.cc/300'),
+                            image: NetworkImage('http://52.78.7.28:8080/$path/'),
                             fit: BoxFit.cover
                           )
                         ),
@@ -209,6 +214,19 @@ class SearchUsersState extends State<SearchUsers> with AutomaticKeepAliveClientM
                     ),
                   ),
                   onPressed: () {}
+                ),
+                SizedBox(height: 4.0),
+                FlatButton(
+                  child: Center(
+                    child: Text(
+                      phone_number,
+                      style: TextStyle(
+                        fontFamily: 'Quicksand',
+                        fontSize: 12.0
+                      )
+                    )
+                  ),
+                  onPressed: () => launch("tel://$phone_number"),
                 )
               ]
             )

@@ -30,6 +30,8 @@ class GetUsers {
       user.setEmail(email);
       String phonenumber = json['phonenumber'];
       user.setPhonenumber(phonenumber);
+      String imagepath = json['imagepath'];
+      user.setImagePath(imagepath);
       userlist.add(user);
     }
     return userlist;
@@ -42,7 +44,7 @@ class User {
   String _lastname;
   String _email;
   String _phonenumber;
-  bool _visible;
+  String _imagePath;
 
   void setUsername(String username) {
     _username = username;
@@ -77,5 +79,12 @@ class User {
   }
   String getPhonenumber() {
     return _phonenumber;
+  }
+
+  void setImagePath(String imagePath) {
+    _imagePath = imagePath;
+  }
+  String getImagePath() {
+    return _imagePath;
   }
 }
