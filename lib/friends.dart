@@ -48,7 +48,7 @@ class SearchUsersState extends State<SearchUsers>
       resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         title: new Text(
-          "멋진 유저들",
+          "아주 엄청나게 멋진 유저들",
         ),
         backgroundColor: Colors.orangeAccent,
         centerTitle: true,
