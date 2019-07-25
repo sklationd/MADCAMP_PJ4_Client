@@ -45,6 +45,18 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: fonts/Rubik-Regular.ttf
+        - asset: fonts/Rubik-Medium.ttf
+          weight: 500
+    - family: Nanum Gothic
+      fonts:
+        - asset: lib/fonts/NanumGothic_Regular.ttf
+    - family: Nanum Gothic bold
+      fonts:
+        - asset: lib/fonts/NanumGothic-Bold.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
