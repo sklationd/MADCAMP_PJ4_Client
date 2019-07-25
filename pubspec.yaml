@@ -28,6 +28,8 @@ dependencies:
   english_words: ^3.1.0
   flutter_html: ^0.10.4
   url_launcher: ^5.1.0
+  image_picker:
+  path:
 dev_dependencies:
   flutter_test:
     sdk: flutter

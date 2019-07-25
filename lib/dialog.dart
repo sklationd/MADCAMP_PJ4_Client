@@ -4,11 +4,11 @@ showAlertDialog(BuildContext context, cancel, confirm, title, description) {
 
   // set up the buttons
   Widget cancelButton = FlatButton(
-    child: Text("취소"),
+    child: Text("아니오"),
     onPressed: cancel,
   );
   Widget continueButton = FlatButton(
-    child: Text("확인"),
+    child: Text("예"),
     onPressed: confirm,
   );
 
