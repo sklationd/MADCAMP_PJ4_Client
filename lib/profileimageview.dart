@@ -14,6 +14,9 @@ class ProfileImage extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter image picker',
       home: ProfileImageView(),
+      theme: ThemeData(
+        primaryColor: Colors.white,
+      ),
     );
   }
 }
@@ -45,6 +48,9 @@ class _ProfileImageView extends State<ProfileImageView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.white,
+      ),
       home: Scaffold(
         appBar: AppBar(
           title: new Text("프로필 이미지 설정"),
@@ -66,6 +72,7 @@ class _ProfileImageView extends State<ProfileImageView> {
               tooltip: 'getGalleryImage',
               child: Icon(Icons.photo_library),
             ),
+            SizedBox(height: 10),
             FloatingActionButton(
               heroTag: "btn2",
               onPressed: () => getCameraImage(),
@@ -86,10 +93,10 @@ class _ProfileImageView extends State<ProfileImageView> {
     int length = await _image.length();
     var stream = new http.ByteStream(DelegatingStream.typed(_image.openRead()));
     final request = new http.MultipartRequest("POST", uri);
-    var multipartFile = new http.MultipartFile('imageFile', stream, length, filename: path.basename(_image.path));
+    var multipartFile = new http.MultipartFile('imageFile', stream, length,
+        filename: path.basename(_image.path));
     request.files.add(multipartFile);
     var response = await request.send();
-    print(response.statusCode);
     Navigator.pop(context);
     Navigator.pushReplacement(
       context,

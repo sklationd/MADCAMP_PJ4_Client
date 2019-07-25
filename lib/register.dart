@@ -5,8 +5,6 @@ import 'dart:async';
 
 import 'package:kaistal/main.dart';
 import 'package:kaistal/dialog.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 import 'package:kaistal/profileimageview.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -39,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
           children: <Widget>[
             SizedBox(height: 60.0),
             SizedBox(
-              height: 50,
+              height: 45,
               child: TextField(
                 focusNode: _idFocus,
                 controller: _usernameController,
@@ -69,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 8.0),
             SizedBox(
-              height: 50,
+              height:45,
               child: TextField(
                 focusNode: _fstFocus,
                 controller: _firstnameController,
@@ -99,7 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 8.0),
             SizedBox(
-              height: 50,
+              height: 45,
               child: TextField(
                 focusNode: _lastFocus,
                 controller: _lastnameController,
@@ -129,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 8.0),
             SizedBox(
-              height: 50,
+              height: 45,
               child: TextField(
                 focusNode: _phoneFocus,
                 controller: _phoneController,
@@ -159,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 8.0),
             SizedBox(
-              height: 50,
+              height: 45,
               child: TextField(
                 focusNode: _emailFocus,
                 controller: _emailController,
@@ -189,7 +187,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 8.0),
             SizedBox(
-              height: 50,
+              height: 45,
               child: TextField(
                 focusNode: _pwFocus,
                 controller: _passwordController,
@@ -221,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 8.0),
             SizedBox(
-              height: 50,
+              height: 45,
               child: TextField(
                 focusNode: _pwcfFocus,
                 controller: _passwordConfirmationController,
@@ -242,10 +240,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     filled: true,
                     labelText: 'Password Confirm',
-                    errorText: (_passwordConfirmationController.text !=
-                            _passwordController.text)
-                        ? "Password Confirmation does not matched"
-                        : null),
+                ),
                 obscureText: true,
                 // 가려짐
                 textInputAction: TextInputAction.done,
@@ -283,7 +278,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Icon(Icons.clear, color: Colors.white),
                           SizedBox(width: 30),
                           Text(
-                            'SIGN UP',
+                            'CLEAR',
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
@@ -368,13 +363,8 @@ class _RegisterPageState extends State<RegisterPage> {
     bool result = await registerSession.getData();
     if (result) {
       // Register Success
-      Login loginSession = new Login(username, password);
-      String token = await loginSession.getData();
-      assert(token != null);
+      await _login(context, username, password);
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("token", token);
-      prefs.setString("username", username);
-      prefs.setString("password", password);
       prefs.setString("phone", phone);
       prefs.setString("name", firstname + ' ' + lastname);
       prefs.setString("email", email);
@@ -387,7 +377,6 @@ class _RegisterPageState extends State<RegisterPage> {
     showAlertDialog(context, () {
       ///set profile image to default
       Navigator.pop(context);
-      Navigator.pop(context);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -396,12 +385,27 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     }, () {
       Navigator.pop(context);
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfileImage(),
+          builder: (context) => ProfileImageView(),
         ),
       );
     }, "프로필 사진 등록", "프로필 사진을 등록하시겠습니까?");
+  }
+
+  Future<bool> _login(
+      BuildContext context, String username, String password) async {
+    Login loginSession = new Login(username, password);
+    String token = await loginSession.getData();
+    if (token != null) {
+      // Login Success
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("token", token);
+      prefs.setString("username", username);
+      prefs.setString("password", password);
+      return true;
+    } else
+      return false;
   }
 }

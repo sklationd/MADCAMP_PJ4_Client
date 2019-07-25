@@ -48,9 +48,9 @@ class SearchUsersState extends State<SearchUsers>
       resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         title: new Text(
-          "아주 엄청나게 멋진 유저들",
+          "Friends",
         ),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Colors.white,
         centerTitle: true,
       ),
       body: _userListBuilder(),
@@ -128,7 +128,7 @@ class SearchUsersState extends State<SearchUsers>
 
   void _showUser(context, index) {
     bool hasProfilePic = true;
-    String path;
+    String url;
     String prePath;
     String postPath;
     if (_userListForDisplay[index].getImagePath() == null) {
@@ -137,9 +137,9 @@ class SearchUsersState extends State<SearchUsers>
     if (hasProfilePic) {
       prePath = "my_uploads";
       postPath = _userListForDisplay[index].getImagePath().substring(11);
-      path = "http://52.78.7.28:8080/" + prePath + "/" + postPath;
+      url = "http://52.78.7.28:8080/" + prePath + "/" + postPath;
     } else {
-      path = "https://cdn.dribbble.com/users/813156/screenshots/3557331/profile_pic-01_1x.png";
+      url = "https://cdn.dribbble.com/users/813156/screenshots/3557331/profile_pic-01_1x.png";
     }
     String phone_number = _userListForDisplay[index].getPhonenumber();
     String email = _userListForDisplay[index].getEmail();
@@ -186,7 +186,7 @@ class SearchUsersState extends State<SearchUsers>
                                             width: 2.0
                                         ),
                                         image: DecorationImage(
-                                            image: NetworkImage(path),
+                                            image: NetworkImage(url),
                                             fit: BoxFit.cover
                                         )
                                     ),

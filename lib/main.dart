@@ -143,6 +143,7 @@ class MainState extends State<Main>{
                         onTap: () {
                           showAlertDialog(context, () {
                             print("logout cancel");
+                            Navigator.pop(context);
                           }, () {
                             SharedPreferences.getInstance().then((sf) {
                               sf.clear();

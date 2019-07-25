@@ -9,7 +9,8 @@ class ContentsView extends StatelessWidget {
     return MaterialApp(
       title: 'Startup Name Generator',
       theme: ThemeData(
-        primaryColor: Colors.orangeAccent,
+        primaryColor: Colors.white,
+
       ),
       home: StudentNotice(),
     );
@@ -66,6 +67,7 @@ class StudentNoticeState extends State<StudentNotice> with AutomaticKeepAliveCli
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("학생 공지사항"),
+        centerTitle: true,
         actions: <Widget>[
           IconButton(icon: Icon(Icons.bookmark_border), onPressed: _pushSaved),
         ],

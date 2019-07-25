@@ -26,6 +26,7 @@ class ContentView extends StatelessWidget {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("자세히보기"),
+        centerTitle: true,
       ),
       body: new Center(
           child: SingleChildScrollView(

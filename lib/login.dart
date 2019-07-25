@@ -25,13 +25,9 @@ class _LoginPageState extends State<LoginPage> {
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
             SizedBox(height: 80.0),
-            Column(
-              children: <Widget>[
-                SizedBox(height: 16.0),
-                Text('Hello'),
-              ],
-            ),
-            SizedBox(height: 120.0),
+            SizedBox(height: 150.0,
+            child: Center(child: Image.asset('assets/cuteBird.png'))),
+            SizedBox(height: 40.0),
             TextField(
               focusNode: _idFocus,
               controller: _usernameController,
