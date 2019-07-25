@@ -6,7 +6,6 @@ import 'package:kaistal/auth.dart';
 import 'package:kaistal/register.dart';
 import 'package:kaistal/main.dart';
 
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -37,6 +36,18 @@ class _LoginPageState extends State<LoginPage> {
               focusNode: _idFocus,
               controller: _usernameController,
               decoration: InputDecoration(
+                enabledBorder: new OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(30.0),
+                  ),
+                ),
+                focusedBorder: new OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(30.0),
+                  ),
+                ),
                 filled: true,
                 labelText: 'Username',
               ),
@@ -50,6 +61,18 @@ class _LoginPageState extends State<LoginPage> {
               focusNode: _pwFocus,
               controller: _passwordController,
               decoration: InputDecoration(
+                enabledBorder: new OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(30.0),
+                  ),
+                ),
+                focusedBorder: new OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(30.0),
+                  ),
+                ),
                 filled: true,
                 labelText: 'Password',
               ),
@@ -62,7 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                         _passwordController.text)
                     .then((result) {
                   if (result) {
-                    Navigator.pushReplacement(context,
+                    Navigator.pushReplacement(
+                      context,
                       MaterialPageRoute(
                         builder: (context) => Main(),
                       ),
@@ -71,47 +95,102 @@ class _LoginPageState extends State<LoginPage> {
                     print("Login Failed");
                   }
                 });
-
               },
             ),
-            ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  child: Text('CLEAR'),
-                  onPressed: () {
-                    _usernameController.clear();
-                    _passwordController.clear();
-                  },
-                ),
-                RaisedButton(
-                  child: Text('SIGN IN'),
-                  onPressed: () {
-                    _login(context, _usernameController.text,
-                            _passwordController.text)
-                        .then((result) {
-                      if (result) {
-                        Navigator.pushReplacement(context,
-                          MaterialPageRoute(
-                            builder: (context) => Main(),
+            Center(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 150,
+                    child: RaisedButton(
+                      color: Colors.orangeAccent,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.clear, color: Colors.white),
+                          SizedBox(width: 30),
+                          Text(
+                            'CLEAR',
+                            style: TextStyle(color: Colors.white),
                           ),
-                        );
-                      } else {
-                        print("Login Failed");
-                      }
-                    });
-                  },
-                ),
-                RaisedButton(
-                  child: Text('SIGN UP'),
-                  onPressed: () {
-                    Navigator.pushReplacement(context,
-                      MaterialPageRoute(
-                        builder: (context) => RegisterPage(),
+                        ],
                       ),
-                    );
-                  },
-                ),
-              ],
+                      onPressed: () {
+                        _usernameController.clear();
+                        _passwordController.clear();
+                      },
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 150,
+                    child: RaisedButton(
+                        color: Colors.orangeAccent,
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.check, color: Colors.white),
+                            SizedBox(width: 30),
+                            Text(
+                              'SIGN IN',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          _login(context, _usernameController.text,
+                                  _passwordController.text)
+                              .then((result) {
+                            if (result) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Main(),
+                                ),
+                              );
+                            } else {
+                              print("Login Failed");
+                            }
+                          });
+                        },
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0))),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 150,
+                    child: RaisedButton(
+                        color: Colors.orangeAccent,
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.person_add, color: Colors.white),
+                            SizedBox(width: 30),
+                            Text(
+                              'SIGN UP',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegisterPage(),
+                            ),
+                          );
+                        },
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0))),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -125,6 +204,7 @@ class _LoginPageState extends State<LoginPage> {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }
+
   ///RESTful API 이용해서 로그인하고 성공하면 TOKEN 저장
   Future<bool> _login(
       BuildContext context, String username, String password) async {

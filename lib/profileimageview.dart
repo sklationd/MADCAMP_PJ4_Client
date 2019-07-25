@@ -90,6 +90,7 @@ class _ProfileImageView extends State<ProfileImageView> {
     request.files.add(multipartFile);
     var response = await request.send();
     print(response.statusCode);
+    Navigator.pop(context);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

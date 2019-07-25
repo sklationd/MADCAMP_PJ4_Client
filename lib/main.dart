@@ -148,6 +148,7 @@ class MainState extends State<Main>{
                               sf.clear();
                             });
                             Navigator.pop(context);
+                            Navigator.pop(context);
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

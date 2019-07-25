@@ -38,155 +38,307 @@ class _RegisterPageState extends State<RegisterPage> {
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
             SizedBox(height: 60.0),
-            TextField(
-              focusNode: _idFocus,
-              controller: _usernameController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'Username',
-              ),
-              textInputAction: TextInputAction.next,
-              onSubmitted: (term) {
-                _fieldFocusChange(context, _idFocus, _fstFocus);
-              },
-            ),
-            SizedBox(height: 8.0),
-            TextField(
-              focusNode: _fstFocus,
-              controller: _firstnameController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'First name',
-              ),
-              textInputAction: TextInputAction.next,
-              onSubmitted: (term) {
-                _fieldFocusChange(context, _fstFocus, _lastFocus);
-              },
-            ),
-            SizedBox(height: 8.0),
-            TextField(
-              focusNode: _lastFocus,
-              controller: _lastnameController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'Last name',
-              ),
-              textInputAction: TextInputAction.next,
-              onSubmitted: (term) {
-                _fieldFocusChange(context, _lastFocus, _phoneFocus);
-              },
-            ),
-            SizedBox(height: 8.0),
-            TextField(
-              focusNode: _phoneFocus,
-              controller: _phoneController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'Phone Number',
-              ),
-              textInputAction: TextInputAction.next,
-              onSubmitted: (term) {
-                _fieldFocusChange(context, _phoneFocus, _emailFocus);
-              },
-            ),
-            SizedBox(height: 8.0),
-            TextField(
-              focusNode: _emailFocus,
-              controller: _emailController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'Email',
-              ),
-              textInputAction: TextInputAction.next,
-              onSubmitted: (term) {
-                _fieldFocusChange(context, _emailFocus, _pwFocus);
-              },
-            ),
-            SizedBox(height: 8.0),
-            TextField(
-              focusNode: _pwFocus,
-              controller: _passwordController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'Password',
-              ),
-              obscureText: true,
-              // 가려짐
-              textInputAction: TextInputAction.next,
-              onSubmitted: (term) {
-                _fieldFocusChange(context, _pwFocus, _pwcfFocus);
-              },
-            ),
-            SizedBox(height: 8.0),
-            TextField(
-              focusNode: _pwcfFocus,
-              controller: _passwordConfirmationController,
-              decoration: InputDecoration(
+            SizedBox(
+              height: 50,
+              child: TextField(
+                focusNode: _idFocus,
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  enabledBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  focusedBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
                   filled: true,
-                  labelText: 'Password Confirmation',
-                  errorText: (_passwordConfirmationController.text !=
-                          _passwordController.text)
-                      ? "Password Confirmation does not matched"
-                      : null),
-              obscureText: true,
-              // 가려짐
-              textInputAction: TextInputAction.done,
-              onSubmitted: (term) {
-                _pwcfFocus.unfocus();
-                _register(
-                        context,
-                        _usernameController.text,
-                        _firstnameController.text,
-                        _lastnameController.text,
-                        _phoneController.text,
-                        _emailController.text,
-                        _passwordController.text,
-                        _passwordConfirmationController.text)
-                    .then((result) {
-                  if (result) {
-                    _registerSuccess(context);
-                  } else {
-                    print("Register Failed");
-                  }
-                });
-              },
+                  labelText: 'Username',
+                ),
+                textInputAction: TextInputAction.next,
+                onSubmitted: (term) {
+                  _fieldFocusChange(context, _idFocus, _fstFocus);
+                },
+              ),
             ),
-            ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  child: Text('CLEAR'),
-                  onPressed: () {
-                    _usernameController.clear();
-                    _passwordController.clear();
-                    _firstnameController.clear();
-                    _lastnameController.clear();
-                    _phoneController.clear();
-                    _emailController.clear();
-                    _passwordConfirmationController.clear();
-                  },
+            SizedBox(height: 8.0),
+            SizedBox(
+              height: 50,
+              child: TextField(
+                focusNode: _fstFocus,
+                controller: _firstnameController,
+                decoration: InputDecoration(
+                  enabledBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  focusedBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  filled: true,
+                  labelText: 'First name',
                 ),
-                RaisedButton(
-                  child: Text('확인'),
-                  onPressed: () {
-                    _register(
-                            context,
-                            _usernameController.text,
-                            _firstnameController.text,
-                            _lastnameController.text,
-                            _phoneController.text,
-                            _emailController.text,
-                            _passwordController.text,
-                            _passwordConfirmationController.text)
-                        .then((result) {
-                      if (result) {
-                        _registerSuccess(context);
-                      } else {
-                        print("Register Failed");
-                      }
-                    });
-                  },
+                textInputAction: TextInputAction.next,
+                onSubmitted: (term) {
+                  _fieldFocusChange(context, _fstFocus, _lastFocus);
+                },
+              ),
+            ),
+            SizedBox(height: 8.0),
+            SizedBox(
+              height: 50,
+              child: TextField(
+                focusNode: _lastFocus,
+                controller: _lastnameController,
+                decoration: InputDecoration(
+                  enabledBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  focusedBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  filled: true,
+                  labelText: 'Last name',
                 ),
-              ],
+                textInputAction: TextInputAction.next,
+                onSubmitted: (term) {
+                  _fieldFocusChange(context, _lastFocus, _phoneFocus);
+                },
+              ),
+            ),
+            SizedBox(height: 8.0),
+            SizedBox(
+              height: 50,
+              child: TextField(
+                focusNode: _phoneFocus,
+                controller: _phoneController,
+                decoration: InputDecoration(
+                  enabledBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  focusedBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  filled: true,
+                  labelText: 'Phone number',
+                ),
+                textInputAction: TextInputAction.next,
+                onSubmitted: (term) {
+                  _fieldFocusChange(context, _phoneFocus, _emailFocus);
+                },
+              ),
+            ),
+            SizedBox(height: 8.0),
+            SizedBox(
+              height: 50,
+              child: TextField(
+                focusNode: _emailFocus,
+                controller: _emailController,
+                decoration: InputDecoration(
+                  enabledBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  focusedBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  filled: true,
+                  labelText: 'E-mail',
+                ),
+                textInputAction: TextInputAction.next,
+                onSubmitted: (term) {
+                  _fieldFocusChange(context, _emailFocus, _pwFocus);
+                },
+              ),
+            ),
+            SizedBox(height: 8.0),
+            SizedBox(
+              height: 50,
+              child: TextField(
+                focusNode: _pwFocus,
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  enabledBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  focusedBorder: new OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.orangeAccent, width: 2.0),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(15.0),
+                    ),
+                  ),
+                  filled: true,
+                  labelText: 'Password',
+                ),
+                obscureText: true,
+                // 가려짐
+                textInputAction: TextInputAction.next,
+                onSubmitted: (term) {
+                  _fieldFocusChange(context, _pwFocus, _pwcfFocus);
+                },
+              ),
+            ),
+            SizedBox(height: 8.0),
+            SizedBox(
+              height: 50,
+              child: TextField(
+                focusNode: _pwcfFocus,
+                controller: _passwordConfirmationController,
+                decoration: InputDecoration(
+                    enabledBorder: new OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.orangeAccent, width: 2.0),
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(15.0),
+                      ),
+                    ),
+                    focusedBorder: new OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.orangeAccent, width: 2.0),
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(15.0),
+                      ),
+                    ),
+                    filled: true,
+                    labelText: 'Password Confirm',
+                    errorText: (_passwordConfirmationController.text !=
+                            _passwordController.text)
+                        ? "Password Confirmation does not matched"
+                        : null),
+                obscureText: true,
+                // 가려짐
+                textInputAction: TextInputAction.done,
+                onSubmitted: (term) {
+                  _pwcfFocus.unfocus();
+                  _register(
+                          context,
+                          _usernameController.text,
+                          _firstnameController.text,
+                          _lastnameController.text,
+                          _phoneController.text,
+                          _emailController.text,
+                          _passwordController.text,
+                          _passwordConfirmationController.text)
+                      .then((result) {
+                    if (result) {
+                      _registerSuccess(context);
+                    } else {
+                      print("Register Failed");
+                    }
+                  });
+                },
+              ),
+            ),
+            Center(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: 150,
+                    child: RaisedButton(
+                      color: Colors.orangeAccent,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.clear, color: Colors.white),
+                          SizedBox(width: 30),
+                          Text(
+                            'SIGN UP',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      onPressed: () {
+                        _usernameController.clear();
+                        _passwordController.clear();
+                        _firstnameController.clear();
+                        _lastnameController.clear();
+                        _phoneController.clear();
+                        _emailController.clear();
+                        _passwordConfirmationController.clear();
+                      },
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 150,
+                    child: RaisedButton(
+                      color: Colors.orangeAccent,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.person_add, color: Colors.white),
+                          SizedBox(width: 30),
+                          Text(
+                            'SIGN UP',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      onPressed: () {
+                        _register(
+                                context,
+                                _usernameController.text,
+                                _firstnameController.text,
+                                _lastnameController.text,
+                                _phoneController.text,
+                                _emailController.text,
+                                _passwordController.text,
+                                _passwordConfirmationController.text)
+                            .then((result) {
+                          if (result) {
+                            _registerSuccess(context);
+                          } else {
+                            print("Register Failed");
+                          }
+                        });
+                      },
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
