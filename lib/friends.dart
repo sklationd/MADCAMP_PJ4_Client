@@ -8,7 +8,7 @@ class Friends extends StatelessWidget {
     return MaterialApp(
       title: 'Welcome to Flutter',
       theme: ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: Colors.orangeAccent,
       ),
       home: SearchUsers(),
     );
@@ -50,7 +50,7 @@ class SearchUsersState extends State<SearchUsers>
         title: new Text(
           "멋진 유저들",
         ),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.orangeAccent,
         centerTitle: true,
       ),
       body: _userListBuilder(),
@@ -127,9 +127,20 @@ class SearchUsersState extends State<SearchUsers>
   }
 
   void _showUser(context, index) {
-    String prePath = "my_uploads";
-    String postPath = _userListForDisplay[index].getImagePath().substring(11);
-    String path = prePath + "/" + postPath;
+    bool hasProfilePic = true;
+    String path;
+    String prePath;
+    String postPath;
+    if (_userListForDisplay[index].getImagePath() == null) {
+      hasProfilePic = false;
+    }
+    if (hasProfilePic) {
+      prePath = "my_uploads";
+      postPath = _userListForDisplay[index].getImagePath().substring(11);
+      path = "http://52.78.7.28:8080/" + prePath + "/" + postPath;
+    } else {
+      path = "https://cdn.dribbble.com/users/813156/screenshots/3557331/profile_pic-01_1x.png";
+    }
     String phone_number = _userListForDisplay[index].getPhonenumber();
     String email = _userListForDisplay[index].getEmail();
     showDialog(
@@ -158,7 +169,7 @@ class SearchUsersState extends State<SearchUsers>
                                       topLeft: Radius.circular(10.0),
                                       topRight: Radius.circular(10.0),
                                     ),
-                                    color: Colors.lightBlueAccent
+                                    color: Colors.orangeAccent
                                 ),
                               ),
                               Positioned(
@@ -175,7 +186,7 @@ class SearchUsersState extends State<SearchUsers>
                                             width: 2.0
                                         ),
                                         image: DecorationImage(
-                                            image: NetworkImage('http://52.78.7.28:8080/$path/'),
+                                            image: NetworkImage(path),
                                             fit: BoxFit.cover
                                         )
                                     ),
@@ -191,37 +202,35 @@ class SearchUsersState extends State<SearchUsers>
                                     _userListForDisplay[index].getLastname(),
                                 style: TextStyle(
                                   fontFamily: 'Quicksand',
-                                  fontSize: 14.0,
+                                  fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
                                 )
                             )
                         ),
-                        SizedBox(height: 4.0),
-                        FlatButton(
-                            child: Center(
-                              child: Text(
-                                email,
-                                style: TextStyle(
+                        SizedBox(height: 5.0),
+                        FlatButton.icon(
+                          icon: Icon(Icons.call),
+                          label: Text(
+                              phone_number,
+                              style: TextStyle(
                                   fontFamily: 'Quicksand',
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                            ),
-                            onPressed: () => launch("mailto://$email"),
-                        ),
-                        SizedBox(height: 4.0),
-                        FlatButton(
-                          child: Center(
-                              child: Text(
-                                  phone_number,
-                                  style: TextStyle(
-                                      fontFamily: 'Quicksand',
-                                      fontSize: 12.0
-                                  )
+                                  fontSize: 14.0
                               )
                           ),
                           onPressed: () => launch("tel://$phone_number"),
-                        )
+                        ),
+                        SizedBox(height: 2.0),
+                        FlatButton.icon(
+                            icon: Icon(Icons.email),
+                            label: Text(
+                                email,
+                                style: TextStyle(
+                                  fontFamily: 'Quicksand',
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                            onPressed: () => launch("mailto://$email"),
+                        ),
                       ]
                   )
               )
