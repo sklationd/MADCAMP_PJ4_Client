@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaistal/getusers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Friends extends StatelessWidget {
   @override
@@ -47,9 +48,9 @@ class SearchUsersState extends State<SearchUsers>
       resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         title: new Text(
-          "Friends",
+          "멋진 유저들",
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.lightBlueAccent,
         centerTitle: true,
       ),
       body: _userListBuilder(),
@@ -126,73 +127,106 @@ class SearchUsersState extends State<SearchUsers>
   }
 
   void _showUser(context, index) {
+    String prePath = "my_uploads";
+    String postPath = _userListForDisplay[index].getImagePath().substring(11);
+    String path = prePath + "/" + postPath;
+    String phone_number = _userListForDisplay[index].getPhonenumber();
+    String email = _userListForDisplay[index].getEmail();
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
           return Dialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
               child: Container(
                   height: 350.0,
                   width: 200.0,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-                  child: Column(children: <Widget>[
-                    Stack(children: <Widget>[
-                      Container(height: 170.0),
-                      Container(
-                        height: 100.0,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0),
-                            ),
-                            color: Colors.lightBlueAccent),
-                      ),
-                      Positioned(
-                          top: 40.0,
-                          left: 80.0,
-                          child: Container(
-                            height: 120.0,
-                            width: 120.0,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(60.0),
-                                border: Border.all(
-                                    color: Colors.white,
-                                    style: BorderStyle.solid,
-                                    width: 2.0),
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        'http://i.pravatar.cc/300'),
-                                    fit: BoxFit.cover)),
-                          ))
-                    ]),
-                    SizedBox(height: 10.0),
-                    Padding(
-                        padding: EdgeInsets.all(3.0),
-                        child: Text(
-                            _userListForDisplay[index].getFirstname() +
-                                " " +
-                                _userListForDisplay[index].getLastname(),
-                            style: TextStyle(
-                              fontFamily: 'Quicksand',
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
-                            ))),
-                    SizedBox(height: 4.0),
-                    FlatButton(
-                        child: Center(
-                          child: Text(
-                            _userListForDisplay[index].getEmail(),
-                            style: TextStyle(
-                              fontFamily: 'Quicksand',
-                              fontSize: 12.0,
-                            ),
-                          ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0)
+                  ),
+                  child: Column(
+                      children: <Widget>[
+                        Stack(
+                            children: <Widget>[
+                              Container(
+                                  height: 170.0
+                              ),
+                              Container(
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0),
+                                    ),
+                                    color: Colors.lightBlueAccent
+                                ),
+                              ),
+                              Positioned(
+                                  top: 40.0,
+                                  left: 80.0,
+                                  child: Container(
+                                    height: 120.0,
+                                    width: 120.0,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(60.0),
+                                        border: Border.all(
+                                            color: Colors.white,
+                                            style: BorderStyle.solid,
+                                            width: 2.0
+                                        ),
+                                        image: DecorationImage(
+                                            image: NetworkImage('http://52.78.7.28:8080/$path/'),
+                                            fit: BoxFit.cover
+                                        )
+                                    ),
+                                  )
+                              )
+                            ]
                         ),
-                        onPressed: () {})
-                  ])));
-        });
+                        SizedBox(height: 10.0),
+                        Padding(
+                            padding: EdgeInsets.all(3.0),
+                            child: Text(
+                                _userListForDisplay[index].getFirstname() + " " +
+                                    _userListForDisplay[index].getLastname(),
+                                style: TextStyle(
+                                  fontFamily: 'Quicksand',
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold,
+                                )
+                            )
+                        ),
+                        SizedBox(height: 4.0),
+                        FlatButton(
+                            child: Center(
+                              child: Text(
+                                email,
+                                style: TextStyle(
+                                  fontFamily: 'Quicksand',
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
+                            onPressed: () => launch("mailto://$email"),
+                        ),
+                        SizedBox(height: 4.0),
+                        FlatButton(
+                          child: Center(
+                              child: Text(
+                                  phone_number,
+                                  style: TextStyle(
+                                      fontFamily: 'Quicksand',
+                                      fontSize: 12.0
+                                  )
+                              )
+                          ),
+                          onPressed: () => launch("tel://$phone_number"),
+                        )
+                      ]
+                  )
+              )
+          );
+        }
+    );
   }
 }
